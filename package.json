@@ -1,0 +1,35 @@
+{
+  "name": "word-counter-client",
+  "version": "1.0.0",
+  "description": "This is a client that lets you connect to a word counter server",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "author": "vibhor.nikhra@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.6",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.4",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --max-warnings 0 ."
+    ]
+  },
+  "dependencies": {
+    "@vnikhra/word-counter": "^1.0.2"
+  }
+}
