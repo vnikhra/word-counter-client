@@ -1,5 +1,5 @@
 {
-  "name": "word-counter-client",
+  "name": "@vnikhra/word-counter-client",
   "version": "1.0.0",
   "description": "This is a client that lets you connect to a word counter server",
   "main": "build/index.js",
