@@ -1,5 +1,5 @@
 import { main } from "./index";
-import { printWordCount } from "./printWordCount";
+import { printWordCount } from "./utils/printWordCount";
 
 // Mock console methods
 const originalConsoleError = console.error;
@@ -12,7 +12,7 @@ afterEach(() => {
   console.error = originalConsoleError;
 });
 
-jest.mock("./printWordCount", () => ({
+jest.mock("./utils/printWordCount", () => ({
   printWordCount: jest.fn(),
 }));
 

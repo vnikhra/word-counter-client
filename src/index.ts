@@ -1,27 +1,46 @@
-import { printWordCount } from "./printWordCount";
+import {locallyProcessFile} from "./processor/localFileProcessor";
+import {checkFileStatus, submitFileForProcessing} from "./processor/remoteFileProcessor";
 
 export async function main() {
   const args = process.argv.slice(2);
 
-  if (args.length !== 1) {
-    console.error("Usage: ts-node index.ts <file-path>");
-    throw new Error("Invalid number of arguments");
+  if (args.length === 1 && (args.includes('--local') || args.includes('--check-result'))) {
+    console.error('Usage: node client.js [--local | --check-result] <file_path | fileId>');
+    return;
   }
 
-  const filePath = args[0];
+  if (args.length > 1 && (!args.includes('--local') && !args.includes('--check-result'))) {
+    console.error('Usage: node client.js [--local | --check-result] <file_path | fileId>');
+    return;
+  }
 
-  try {
-    await printWordCount(filePath);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      console.error("error while reading file:", error.message);
-    throw new Error("Error while reading file");
+  const localIndex = args.indexOf('--local');
+  const checkResultIndex = args.indexOf('--check-result');
+
+  if ([localIndex, checkResultIndex].filter(index => index !== -1).length > 1) {
+    console.error('Options --local, and --check-result cannot be used together.');
+    return;
+  }
+
+  const optionIndex = [localIndex, checkResultIndex].find(index => index !== -1)!;
+  const option = args[optionIndex];
+  const fileId = args.find((_: any, index: any) => index !== optionIndex); // Get fileId or file path depending on the option used
+
+  if(!fileId){
+    console.error('FileId or File path are mandatory');
+    return;
+  }
+  if (option === '--local') {
+    await locallyProcessFile(fileId);
+  } else if (option === '--check-result') {
+    await checkFileStatus(fileId);
+  } else {
+    await submitFileForProcessing(fileId);
   }
 }
 
 if (require.main === module) {
-  main().catch((error) => {
-    console.error("error while reading file:", error.message);
+  main().catch(() => {
     process.exit(1);
   });
 }
