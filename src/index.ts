@@ -41,7 +41,7 @@ export async function main() {
 
 if (require.main === module) {
   main().catch((err) => {
-    console.error("Error while processing", err);
+    console.error("Error while processing", err.message);
     process.exit(1);
   });
 }
