@@ -41,7 +41,7 @@ Alternatively, you can choose one of the following options:
   To check results for a previously uploaded file:
 
   ```bash
-  node build/index.js --check-results <fileId>
+  node build/index.js --check-result <fileId>
   ```
 - **--local \<filepath\>**: Process the file locally. This option utilizes the same library used by the server to count the frequency of each word but uses the machine’s resources without uploading any data to the server.
 
