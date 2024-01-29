@@ -14,16 +14,12 @@ describe("printWordCount", () => {
     (fs.createReadStream as jest.Mock).mockReturnValue(mockFileStream);
     (countWords as jest.Mock).mockResolvedValueOnce(mockWordCounts);
 
-    // Redirect console.log output
     const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
 
     await printWordCount(filePath);
 
-    // Verify that fs.createReadStream was called with the correct file path
     expect(fs.createReadStream).toHaveBeenCalledWith(filePath);
-    // Verify that countWords was called with the file stream
     expect(countWords).toHaveBeenCalledWith(mockFileStream);
-    // Verify console.log output
     expect(consoleLogSpy).toHaveBeenCalledWith("Word counts:");
     expect(consoleLogSpy).toHaveBeenCalledWith("hello: 2");
     expect(consoleLogSpy).toHaveBeenCalledWith("world: 1");
@@ -38,17 +34,13 @@ describe("printWordCount", () => {
     (fs.createReadStream as jest.Mock).mockReturnValue({} as fs.ReadStream);
     (countWords as jest.Mock).mockRejectedValueOnce(mockError);
 
-    // Redirect console.error output
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
     await printWordCount(filePath);
 
-    // Verify that fs.createReadStream was called with the correct file path
     expect(fs.createReadStream).toHaveBeenCalledWith(filePath);
-    // Verify that countWords was called with the file stream
     expect(countWords).toHaveBeenCalled();
-    // Verify console.error output
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Error:", mockError.message);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("error while reading file:", mockError.message);
 
     consoleErrorSpy.mockRestore();
   });

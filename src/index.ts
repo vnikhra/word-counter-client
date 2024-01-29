@@ -40,7 +40,8 @@ export async function main() {
 }
 
 if (require.main === module) {
-  main().catch(() => {
+  main().catch((err) => {
+    console.error("Error while processing", err);
     process.exit(1);
   });
 }
